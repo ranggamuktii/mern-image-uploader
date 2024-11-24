@@ -1,14 +1,13 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const cors = require('cors');
-const connectToMongoDB = require('./config/mongodb');
-const Image = require('./models/Image');
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import cors from 'cors';
+import connectToMongoDB from './config/mongodb';
+import Image from './models/Image';
 
 const app = express();
 const port = process.env.PORT;
 
-// Set up Multer storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -18,19 +17,15 @@ const storage = multer.diskStorage({
   },
 });
 
-// Initialize Multer with the storage configuration
 const upload = multer({ storage });
 
 app.use(express.json());
 app.use(cors());
 
-// Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Connect to MongoDB
 connectToMongoDB();
 
-// Image upload endpoint
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
