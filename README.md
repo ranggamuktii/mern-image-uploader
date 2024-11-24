@@ -89,8 +89,21 @@ mern-image-uploader/
 ├── index.html
 ├── package.json
 ├── src/
-│ ├── App.jsx
-│ └── main.jsx
+│   ├── assets/
+│   ├── components/
+│   │   ├── ImageUploader.jsx
+│   │   ├── UploadedImages.jsx
+│   │   └── ToastNotification.jsx
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   └── UploadedImagesPage.jsx
+│   ├── services/
+│   │   └── imageService.js
+│   ├── styles/
+│   │   ├── App.css
+│   │   └── Components.css
+│   ├── App.jsx
+│   ├── main.jsx
 └── vite.config.js
 ```
 
