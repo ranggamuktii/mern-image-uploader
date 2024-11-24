@@ -2,8 +2,8 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import cors from 'cors';
-import connectToMongoDB from './config/mongodb';
-import Image from './models/Image';
+import connectToMongoDB from './config/mongodb.js';
+import Image from './models/Image.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -22,7 +22,7 @@ const upload = multer({ storage });
 app.use(express.json());
 app.use(cors());
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.resolve('uploads')));
 
 connectToMongoDB();
 
