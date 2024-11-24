@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import axios from 'axios';
 
-function App() {
-  const [count, setCount] = useState(0)
+const ImageUploader = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [images, setImages] = useState([]);
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await axios.post('/api/upload', formData);
+      setImages([...images, response.data.imageUrl]);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <h1 className="text-3xl font-bold mb-8">MERN Image Uploader</h1>
+      <div className="w-full max-w-md">
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="image-upload">
+              Upload Image
+            </label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="image-upload" type="file" onChange={handleImageUpload} />
+          </div>
+          {selectedImage && (
+            <div className="mb-4">
+              <img className="max-w-xs mx-auto" src={URL.createObjectURL(selectedImage)} alt="Selected" />
+            </div>
+          )}
+        </div>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8">
+          <h2 className="text-2xl font-bold mb-4">Uploaded Images</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {images.map((imageUrl, index) => (
+              <img key={index} className="max-w-xs" src={imageUrl} alt={`Image ${index}`} />
+            ))}
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default ImageUploader;
