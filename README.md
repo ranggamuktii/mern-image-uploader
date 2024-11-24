@@ -75,6 +75,7 @@ npm run dev
 
 ## Struktur Direktori
 
+```bash
 mern-image-uploader/
 ├── backend/
 │ ├── config/
@@ -91,6 +92,7 @@ mern-image-uploader/
 │ ├── App.jsx
 │ └── main.jsx
 └── vite.config.js
+```
 
 ## Fitur
 
